@@ -1,16 +1,39 @@
-version: 2
+# version: 2.1
+# jobs:
+#   build:
+#     docker:
+#       # specify the version you desire here
+#       - image: cimg/node:23.6.0
+#     working_directory: ~/teamspeak-server
+#     steps:
+#       - checkout
+#       - run:
+#           name: Install AWS CLI and Deploy Cloudformation
+#           command: |
+#             sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
+#             curl -O https://bootstrap.pypa.io/2.7/get-pip.py && sudo python get-pip.py
+#             sudo pip install -q awscli --upgrade
+          
+#       - run: ./deploy.sh
+
+version: '2.1'
+orbs:
+  aws-cli: circleci/aws-cli@5.1
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: cimg/node:23.6.0
-    working_directory: ~/teamspeak-server
+  setup_ts_server:
+    executor: aws-cli/default
     steps:
       - checkout
-      - run:
-          name: Install AWS CLI and Deploy Cloudformation
-          command: |
-            sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
-            curl -O https://bootstrap.pypa.io/2.7/get-pip.py && sudo python get-pip.py
-            sudo pip install -q awscli --upgrade
-      - run: ./deploy.sh
+      - aws-cli/setup:
+          profile_name: default
+      - run: >-
+          aws cloudformation deploy
+          --region eu-west-1
+          --stack-name teamspeak-server
+          --capabilities CAPABILITY_NAMED_IAM
+          --template-file ./infra.yml
+          --no-fail-on-empty-changeset
+workflows:
+  aws-cli:
+    jobs:
+      - setup_ts_server
