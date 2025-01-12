@@ -12,7 +12,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t3.micro
-      KeyName: cloudformation_user
+      KeyName: TeamSpeak-EC2Instance
       IamInstanceProfile: !Ref InstanceProfile
       SecurityGroups:
         - Ref: InstanceSecurityGroup
