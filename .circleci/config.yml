@@ -1,8 +1,11 @@
 version: '2.1'
 orbs:
-  aws-cli: circleci/aws-cli@5.1
+  aws-cli: circleci/aws-cli@5.1.2
 jobs:
   setup_ts_server:
+    auth:
+      - aws-cli/setup:
+        role_arn: arn:aws:iam::836176488512:user/default-user
     executor: aws-cli/default
     steps:
       - checkout
@@ -16,4 +19,5 @@ jobs:
 workflows:
   aws-cli:
     jobs:
-      - setup_ts_server
+      - setup_ts_server:
+        context: aws
