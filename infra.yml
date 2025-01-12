@@ -23,7 +23,7 @@ Resources:
 
           $TeamSpeakVersion = "${TeamSpeakVersion}"
 
-          wget https://files.teamspeak-services.com/releases/server/${TeamSpeakVersion}/teamspeak3-server_linux_amd64-/${TeamSpeakVersion}.tar.bz2
+          wget https://files.teamspeak-services.com/releases/server/${TeamSpeakVersion}/teamspeak3-server_linux_amd64-${TeamSpeakVersion}.tar.bz2
 
           tar xvfj teamspeak3-server_linux_amd64-${TeamSpeakVersion}.tar.bz2
           cd teamspeak3-server_linux_amd64
