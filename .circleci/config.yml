@@ -1,14 +1,38 @@
+# version: '2.1'
+# orbs:
+#   aws-cli: circleci/aws-cli@5.1.2
+# jobs:
+#   setup_ts_server:
+#     auth:
+#       - aws-cli/setup:
+#         role_arn: arn:aws:iam::836176488512:user/default-user
+#     executor: aws-cli/default
+#     steps:
+#       - checkout
+#       - run: >-
+#           aws cloudformation deploy
+#           --region eu-west-1
+#           --stack-name teamspeak-server
+#           --capabilities CAPABILITY_NAMED_IAM
+#           --template-file ./infra.yml
+#           --no-fail-on-empty-changeset
+# workflows:
+#   aws-cli:
+#     jobs:
+#       - setup_ts_server:
+#         context: aws
+
+
 version: '2.1'
 orbs:
-  aws-cli: circleci/aws-cli@5.1.2
+  aws-cli: circleci/aws-cli@5.1
 jobs:
   setup_ts_server:
-    auth:
-      - aws-cli/setup:
-        role_arn: arn:aws:iam::836176488512:user/default-user
     executor: aws-cli/default
     steps:
       - checkout
+      - aws-cli/setup:
+          profile_name: default-user
       - run: >-
           aws cloudformation deploy
           --region eu-west-1
@@ -20,4 +44,4 @@ workflows:
   aws-cli:
     jobs:
       - setup_ts_server:
-        context: aws
+          context: aws
