@@ -25,7 +25,9 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup:
-          profile_name: default
+          profile_name: EC2 Cloudformation Deploy
+          role_arn: arn:aws:iam::836176488512:role/ts3_docker_deployer
+          role_session_name: deploy-ts3
       - run: >-
           aws cloudformation deploy
           --region eu-west-1
